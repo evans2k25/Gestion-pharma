@@ -35,7 +35,7 @@
 </head>
 <body>
     <header class="p-3 bg-light text-dark d-flex justify-content-between">
-        <h1>Ajout d'un Produit</h1>
+        <h1>-----XXXXXX----</h1>
         <button class="btn btn-dark" id="themeToggle">Mode Sombre</button>
     </header>
 
@@ -63,20 +63,20 @@
                 <!-- Catégorie -->
                 <div class="col-md-6">
                     <label for="{{ form.category.id_for_label }}" class="form-label">Catégorie</label>
-                    
-                    <select name="Category" id="Category" class="form-select" required>
-                        {% for categorie in categories %}
-                            <option value="{{ Category.pk }}" 
-                                    {% if Category.pk == produit.Category.pk  %} selected {% endif %}>
-                                {{ Category.name }}
-                            </option>
+                        <select name="category" id="category" class="form-select" required>
+                         <option value="">Sélectionnez une catégorie</option>
+                         {% for category in categories %}
+                         <option value="{{ category.id }}" {% if form.category.value == category.pk %}selected{% endif %}>
+                         {{ produit.category.name }}
+                         </option>
                         {% endfor %}
-                    </select>
-                    {% if form.category.errors %}
-                        <div class="invalid-feedback d-block">
-                            {{ form.Category.errors.0 }}
-                        </div>
-                    {% endif %}
+                            </select>
+                                {% if form.category.errors %}
+                                <div class="invalid-feedback d-block">
+                                   {{ form.category.errors.0 }}
+                           </div>
+                        {% endif %}
+
                 </div>
     
                 <!-- Prix Unitaire -->
@@ -124,12 +124,7 @@
                     
                     <input type="file" name="image" id="image" class="form-control">
 
-                    {% if produit.image %}
-                            <div class="mt-2">
-                                <img src="{{ produit.image.url }}" alt="Image actuelle" class="img-thumbnail" width="100">
-                            </div>
-                    {% endif %}
-
+                   
 
                     {% if form.image.errors %}
                         <div class="invalid-feedback d-block">

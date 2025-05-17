@@ -5,7 +5,9 @@ from Produits import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import delete_product
+
+
+
 
 
 
@@ -14,8 +16,8 @@ urlpatterns = [
    
    path('',Affichage.as_view(),name='home'),
    path('Ajout/',AjoutProduit.as_view(),name='Ajout'),
-   path('Modification/<int:id>/',Modifier,name='Modifier'),
-   #path('delete-product/<int:category_id>/', delete_product, name='delete_product'),
+   path('modification/<int:pk>/',Update_donnees.as_view(),name='modification'),
+ 
   
 
    
