@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Affichage, AjoutProduitView, UpdateDonneesView,ProduitDetailView
+from .views import Affichage, AjoutProduitView, UpdateDonneesView,ProduitDetailView,ProduitSearchView
 from django.views.generic import DeleteView, UpdateView
 from .models import Produit, Category 
 
@@ -36,6 +36,8 @@ urlpatterns = [
     ),
     
     path('produit/<int:pk>/', ProduitDetailView.as_view(), name='produit_detail'),
+    
+    path("recherche/", ProduitSearchView.as_view(), name="produit_search_results"),
 
 ]
 

@@ -55,3 +55,32 @@ class ProduitDetailView(DetailView):
     model = Produit
     template_name = 'produit_detail.html'  # à créer
     context_object_name = "produit"
+    
+from django.views.generic import ListView
+from django.http import JsonResponse
+from .models import Produit
+
+class ProduitSearchView(ListView):
+    model = Produit
+    context_object_name = "produits"
+    template_name = 'produit_search_results.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        q = self.request.GET.get("q")
+        if q:
+            queryset = queryset.filter(name__icontains=q)
+        return queryset
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            # Pour une requête AJAX, retourne le HTML partiel pour la modale
+            html = self.render_to_string(context)
+            return JsonResponse({'html': html})
+        else:
+            # Pour une requête classique GET (fallback)
+            return super().render_to_response(context, **response_kwargs)
+
+    def render_to_string(self, context):
+        from django.template.loader import render_to_string
+        return render_to_string(self.template_name, context, self.request)

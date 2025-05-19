@@ -1,0 +1,11 @@
+{% if produits %}
+    <div class="list-group">
+        {% for produit in produits %}
+            <div class="list-group-item">
+                <strong>{{ produit.name }}</strong> – {{ produit.category }} – {{ produit.price }} Fr cfa
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-warning">Aucun produit trouvé.</div>
+{% endif %}
