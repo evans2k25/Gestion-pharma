@@ -31,6 +31,22 @@
             background-color: #212529 !important;
             color: #fff !important;
         }
+        .dark-mode .form-container {
+            background: #23272b;
+            color: #fff;
+        }
+        .dark-mode .form-label,
+        .dark-mode .form-control,
+        .dark-mode .form-select,
+        .dark-mode .invalid-feedback {
+            background: #23272b;
+            color: #fff;
+            border-color: #495057;
+        }
+        .dark-mode .form-control,
+        .dark-mode .form-select {
+            background-color: #23272b;
+        }
     </style>
 </head>
 <body>
@@ -41,118 +57,111 @@
 
     <div class="container py-5">
         <div class="form-container shadow-lg p-4 bg-white">
-            
-    
             <form method="POST" class="row g-3" enctype="multipart/form-data">
-
                 <h2 class="text-center mb-4">Modification du Produit</h2>
                 {% csrf_token %}
                 
                 <!-- Nom du produit -->
                 <div class="col-md-6">
-                    <label for="{{ form.name.id_for_label }}" class="form-label">Nom du produit</label>
-                    <input type="text" name="name" id="name" class="form-control" 
-                               value="{{ produit.name }}" required>
+                    <label for="name" class="form-label">Nom du produit</label>
+                    <input type="text" name="name" id="name" class="form-control {% if form.name.errors %}is-invalid{% endif %}" 
+                        value="{{ produit.name }}" required>
                     {% if form.name.errors %}
                         <div class="invalid-feedback d-block">
                             {{ form.name.errors.0 }}
                         </div>
                     {% endif %}
                 </div>
-    
+
                 <!-- Catégorie -->
                 <div class="col-md-6">
-                    <label for="{{ form.category.id_for_label }}" class="form-label">Catégorie</label>
+                    
+                   
+                        
+                        <label for="category" class="form-label">Catégorie</label>
                         <select name="category" id="category" class="form-select" required>
-                         <option value="">Sélectionnez une catégorie</option>
-                         {% for category in categories %}
-                         <option value="{{ category.id }}" {% if form.category.value == category.pk %}selected{% endif %}>
-                         {{ produit.category.name }}
-                         </option>
-                        {% endfor %}
-                            </select>
-                                {% if form.category.errors %}
-                                <div class="invalid-feedback d-block">
-                                   {{ form.category.errors.0 }}
-                           </div>
+                            <option value="">-- Sélectionner une catégorie --</option>
+                            {% for category in categories %}
+                                <option value="{{ produit.category.name }}">
+                                    {{ produit.category.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        
+                        {% if form.category.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.category.errors.0 }}
+                            </div>
                         {% endif %}
-
+                        
+                  
+                    
                 </div>
-    
+
                 <!-- Prix Unitaire -->
                 <div class="col-md-6">
-                    <label for="{{ form.price.id_for_label }}" class="form-label">Prix Unitaire </label>
-                    
-                    <input type="number" name="price" id="price" class="form-control" 
-                               value="{{ produit.price }}" step="0.01" required>
+                    <label for="price" class="form-label">Prix Unitaire</label>
+                    <input type="number" name="price" id="price" class="form-control {% if form.price.errors %}is-invalid{% endif %}" 
+                        value="{{ produit.price }}" step="0.01" required>
                     {% if form.price.errors %}
                         <div class="invalid-feedback d-block">
                             {{ form.price.errors.0 }}
                         </div>
                     {% endif %}
                 </div>
-    
+
                 <!-- Quantité -->
                 <div class="col-md-6">
-                    <label for="{{ form.quantite.id_for_label }}" class="form-label">Quantité</label>
-                    
-                    <input type="number" name="quantite" id="quantite" class="form-control" 
-                               value="{{ produit.quantite }}" required>
+                    <label for="quantite" class="form-label">Quantité</label>
+                    <input type="number" name="quantite" id="quantite" class="form-control {% if form.quantite.errors %}is-invalid{% endif %}" 
+                        value="{{ produit.quantite }}" required>
                     {% if form.quantite.errors %}
                         <div class="invalid-feedback d-block">
                             {{ form.quantite.errors.0 }}
                         </div>
                     {% endif %}
                 </div>
-    
+
                 <!-- Date d'expiration -->
                 <div class="col-md-6">
-                    <label for="{{ form.date_expiration.id_for_label }}" class="form-label">Date d'expiration</label>
-                    
-                    <input type="date" name="date_expiration" id="date_expiration" class="form-control" 
-                               value="{{ produit.date_expiration }}" required>
+                    <label for="date_expiration" class="form-label">Date d'expiration</label>
+                    <input type="date" name="date_expiration" id="date_expiration" class="form-control {% if form.date_expiration.errors %}is-invalid{% endif %}" 
+                        value="{{ produit.date_expiration|date:'Y-m-d' }}" required>
                     {% if form.date_expiration.errors %}
                         <div class="invalid-feedback d-block">
                             {{ form.date_expiration.errors.0 }}
                         </div>
                     {% endif %}
                 </div>
-    
+
                 <!-- Image -->
                 <div class="col-md-6">
-                    <label for="{{ form.image.id_for_label }}" class="form-label">Image</label>
-                    
-                    <input type="file" name="image" id="image" class="form-control">
-
-                   
-
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" name="image" id="image" class="form-control {% if form.image.errors %}is-invalid{% endif %}">
                     {% if form.image.errors %}
                         <div class="invalid-feedback d-block">
                             {{ form.image.errors.0 }}
                         </div>
                     {% endif %}
-    
+
                     {% if produit.image %}
                         <div class="mt-2">
                             <img src="{{ produit.image.url }}" alt="Image actuelle" class="img-thumbnail" width="100">
                         </div>
                     {% endif %}
                 </div>
-    
+
                 <!-- Description -->
                 <div>
-                  
-                    <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
-                
-                    <textarea name="description" id="description" class="form-control" rows="3" required>{{ produit.description }}</textarea>
-                    
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" id="description" class="form-control {% if form.description.errors %}is-invalid{% endif %}" rows="3" required>{{ produit.description }}</textarea>
                     {% if form.description.errors %}
                         <div class="invalid-feedback d-block">
                             {{ form.description.errors.0 }}
                         </div>
                     {% endif %}
                 </div>
-    
+
                 <!-- Boutons -->
                 <div class="col-12 text-center mt-4">
                     <button type="submit" class="btn btn-primary px-5">Mettre à jour</button>
@@ -161,8 +170,6 @@
             </form>
         </div>
     </div>
-    
-    
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

@@ -1,0 +1,21 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<div class="products-row">
+    <h1>Détail du produit</h1>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>Nom :</strong> {{ n.name }}</li>
+        <li class="list-group-item"><strong>Catégorie :</strong> {{ n.category }}</li>
+        <li class="list-group-item"><strong>Prix :</strong> {{ n.price }}</li>
+        <li class="list-group-item"><strong>Quantité :</strong> {{ n.quantite }}</li>
+        <li class="list-group-item"><strong>Date d'expiration :</strong> {{ n.date_expiration }}</li>
+        <li class="list-group-item"><strong>Description :</strong> {{ n.description }}</li>
+        {% if produit.image %}
+        <li class="list-group-item">
+            <img src="{{ produit.image.url }}" alt="Image produit" class="img-thumbnail" width="200" />
+        </li>
+        {% endif %}
+    </ul>
+    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Retour</a>
+</div>
+{% endblock %}
