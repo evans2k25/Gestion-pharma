@@ -1,16 +1,44 @@
 from django.urls import path
-from .views import Affichage, AjoutProduit, Update_donnees 
+from .views import Affichage, AjoutProduitView, UpdateDonneesView,ProduitDetailView
+from django.views.generic import DeleteView, UpdateView
+from .models import Produit, Category 
 
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('', Affichage.as_view(), name='home'),
-    path('Ajout/', AjoutProduit.as_view(), name='Ajout'),
-    path('modification/<int:pk>/', Update_donnees.as_view(), name='modification'),
-   #  path('Detail/<int:pk>/', DetailProduit.as_view(), name='DetailProduit'),
+    path('ajout/', AjoutProduitView.as_view(), name='ajout'),
+    path('modifier/<int:pk>/', UpdateDonneesView.as_view(), name='modifier'),
     
+    
+    path(
+        "produit/<int:pk>/supprimer/", 
+        DeleteView.as_view(model=Produit, template_name='confirm_delete.html', success_url='/'), 
+        name="produit_supprimer"
+    ),
+    
+    path(
+        "categorie/<int:pk>/supprimer/", 
+        DeleteView.as_view(model=Category, template_name='categorie_confirm_delete.html', success_url='/'), 
+        name="categorie_supprimer"
+    ),
+    
+    path(
+        "produit/<int:pk>/modifier/",
+        UpdateView.as_view(
+            model=Produit,
+            fields=['name', 'category', 'price', 'quantite', 'date_expiration', 'image', 'description'],
+            template_name='produit_form.html',
+            success_url='/'
+        ),
+        name="produit_modifier"
+    ),
+    
+    path('produit/<int:pk>/', ProduitDetailView.as_view(), name='produit_detail'),
+
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+ 

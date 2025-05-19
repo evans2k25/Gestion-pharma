@@ -74,29 +74,29 @@
                 </div>
 
                 <!-- Catégorie -->
-                <div class="col-md-6">
+                
                     
                    
                         
+                    <div class="col-md-6">
                         <label for="category" class="form-label">Catégorie</label>
                         <select name="category" id="category" class="form-select" required>
                             <option value="">-- Sélectionner une catégorie --</option>
                             {% for category in categories %}
-                                <option value="{{ produit.category.name }}">
-                                    {{ produit.category.name }}
+                                <option value="{{ category.id }}" {% if produit.category.id == category.id %}selected{% endif %}>
+                                    {{ category.name }}
                                 </option>
                             {% endfor %}
                         </select>
-                        
                         {% if form.category.errors %}
                             <div class="invalid-feedback d-block">
                                 {{ form.category.errors.0 }}
                             </div>
                         {% endif %}
-                        
+                    </div>
                   
                     
-                </div>
+                
 
                 <!-- Prix Unitaire -->
                 <div class="col-md-6">

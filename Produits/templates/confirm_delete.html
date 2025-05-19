@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Supprimer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        .centered-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa;
+            transition: background-color 0.3s;
+        }
+        .dark-mode {
+            background-color: #23272b !important;
+            color: #fff !important;
+        }
+        .dark-mode .card {
+            background: #343a40;
+            color: #fff;
+            border-color: #495057;
+        }
+        .dark-mode .alert-warning {
+            background-color: #ffc10733;
+            color: #fff;
+            border-color: #ffc107;
+        }
+        .dark-mode .btn-secondary {
+            background: #6c757d;
+            border-color: #6c757d;
+        }
+        .dark-mode .btn-danger {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+        .theme-toggle {
+            position: absolute;
+            right: 2rem;
+            top: 2rem;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <button class="btn btn-dark theme-toggle" id="themeToggle">
+        <i class="bi bi-moon"></i> Mode sombre
+    </button>
+    <div class="centered-container" id="mainContainer">
+        <div class="card shadow-sm" style="min-width:340px;max-width:500px;">
+            <div class="card-body">
+                <h1 class="card-title text-danger text-center mb-4">
+                    <i class="bi bi-trash3-fill"></i> Confirmer la suppression
+                </h1>
+                <div class="alert alert-warning text-center">
+                    Es-tu sûr de vouloir supprimer : <strong>{{ object }}</strong> ?
+                </div>
+                <form method="post" class="d-flex justify-content-center gap-2">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-check-circle"></i> Oui, supprimer
+                    </button>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Annuler
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const themeToggle = document.getElementById("themeToggle");
+            const body = document.body;
+            const mainContainer = document.getElementById("mainContainer");
+            // Initialisation du mode selon localStorage
+            if (localStorage.getItem("theme") === "dark") {
+                body.classList.add("dark-mode");
+                mainContainer.classList.add("dark-mode");
+                themeToggle.innerHTML = '<i class="bi bi-sun"></i> Mode clair';
+                themeToggle.classList.remove("btn-dark");
+                themeToggle.classList.add("btn-light");
+            }
+            // Toggle
+            themeToggle.addEventListener("click", function () {
+                const isDark = body.classList.toggle("dark-mode");
+                mainContainer.classList.toggle("dark-mode", isDark);
+                if (isDark) {
+                    themeToggle.innerHTML = '<i class="bi bi-sun"></i> Mode clair';
+                    themeToggle.classList.remove("btn-dark");
+                    themeToggle.classList.add("btn-light");
+                    localStorage.setItem("theme", "dark");
+                } else {
+                    themeToggle.innerHTML = '<i class="bi bi-moon"></i> Mode sombre';
+                    themeToggle.classList.remove("btn-light");
+                    themeToggle.classList.add("btn-dark");
+                    localStorage.setItem("theme", "light");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -103,7 +103,7 @@
           <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
         </svg>
       </button>
-      <a class="app-content-headerButton btn btn-primary" href="{% url 'Ajout' %}">Add Product</a>
+      <a class="app-content-headerButton btn btn-primary" href="{% url 'ajout' %}">Add Product</a>
 
 
 
@@ -226,9 +226,9 @@
             <span class="cell-label">
               Actions:
             </span>
-              <a href="{% url 'modification' n.pk %}" class="btn btn-info btn-sm me-1" title="Modifier"><i class="bi bi-pencil-square"></i></a>
-              <a href="" class="btn btn-danger btn-sm me-1" data-id="{{ n.id }}" title="Supprimer"><i class="bi bi-trash"></i></a>
-              <a href="" class="btn btn-secondary btn-sm" title="Détails"><i class="bi bi-info-circle"></i></a>
+              <a href="{% url 'modifier' n.pk %}" class="btn btn-info btn-sm me-1" title="Modifier"><i class="bi bi-pencil-square"></i></a>
+              <a href="{% url 'produit_supprimer' n.pk %}" class="btn btn-danger btn-sm me-1" data-id="{{ n.id }}" title="Supprimer"><i class="bi bi-trash"></i></a>
+              <a href="{% url 'produit_detail' n.pk %} "class="btn btn-secondary btn-sm" title="Détails"><i class="bi bi-info-circle"></i></a>
             
           </div>
           
