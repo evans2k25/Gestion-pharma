@@ -12,19 +12,26 @@ from django.contrib.auth.models import User
 
 def creer_utilisateur(request):
     if request.method == "POST":
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        password_confirm = request.POST.get("password_confirm")
+        username = request.POST.get['username']
+        email = request.POST.get['email']
+        password = request.POST.get['password']
+        password_confirm = request.POST.get['password_confirm']
+        # Validation de l'email
 
         if password != password_confirm:
             messages.error(request, "Les mots de passe ne correspondent pas.")
-        elif len(password) < 8 or not re.search(r'[A-Za-z]',password) or not re.search(r'\d',password)or not re.search(r'[A-Za-z]',password) :
+            
+            return redirect("creation")
+        if len(password) < 8 or not re.search(r'[A-Za-z]',password) or not re.search(r'\d',password)or not re.search(r'[!@#$%(),.?":{}²|<>§\/&=*]',password) :
             messages.error(request, "Le mot de passe doit contenir au moins 8 caractères.")
-        elif User.objects.filter(username=username).exists():
+            return redirect("creation")
+        
+        if User.objects.filter(username=username).exists():
             messages.error(request, "Ce nom d'utilisateur existe déjà.")
-        elif User.objects.filter(email=email).exists():
+            return redirect("creation")
+        if User.objects.filter(email=email).exists():
             messages.error(request, "Cet email existe déjà.")
+            return redirect("creation")
         else:
             User.objects.create_user(username=username, email=email, password=password)
             messages.success(request, "Utilisateur créé avec succès. Vous pouvez vous connecter.")

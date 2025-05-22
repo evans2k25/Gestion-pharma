@@ -6,10 +6,13 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Produit
 from .forms import AjoutProduit as AjoutProduitForm  # Renommage pour éviter conflit
 
+@never_cache
 @login_required(login_url='login')
 def home(request):
     return render(request, "home.html")
@@ -23,35 +26,41 @@ def deconnexion(request):
 
 class Acceuille(TemplateView):
     template_name = "Acc.html"  # Crée ce template dans ton dossier templates
-
+    
+@method_decorator(never_cache, name='dispatch')
 class Affichage(ListView):
     model = Produit
     template_name = 'home.html'
     queryset = Produit.objects.all()
     context_object_name = 'produits'
-
+@method_decorator(never_cache, name='dispatch')
 class AjoutProduitView(CreateView):
     model = Produit
     form_class = AjoutProduitForm
     template_name = 'Ajout-donnee.html'
     success_url = reverse_lazy('home')
 
+@method_decorator(never_cache, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class UpdateDonneesView(UpdateView):
     model = Produit
     form_class = AjoutProduitForm
     template_name = 'modification.html'
     success_url = reverse_lazy('home')
 
+@method_decorator(never_cache, name='dispatch')
 class GenericDeleteView(DeleteView):
     model = Produit
     template_name = "confirm_delete.html"
     success_url = reverse_lazy("Acceuille")
 
+@method_decorator(never_cache, name='dispatch')
 class ProduitDetailView(DetailView):
     model = Produit
     template_name = 'produit_detail.html'
     context_object_name = "produit"
 
+@method_decorator(never_cache, name='dispatch')
 class ProduitSearchView(ListView):
     model = Produit
     context_object_name = "produits"
