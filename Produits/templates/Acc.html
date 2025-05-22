@@ -1,0 +1,106 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="google-adsense-account" content="ca-pub-2107906926002287">
+  <title>Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  
+
+
+</head>
+<body>
+  
+<style>
+
+   .boutton{
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center;
+      color: white;
+
+
+   }
+   .red{
+    background-color: red;
+
+   }
+   .orange{
+    background-color: orange;
+   }
+   .green{
+    background-color: green;
+   }
+   
+</style>
+
+
+
+
+
+         <div class="container mt-5">
+        <h1 class="display-4 text-center mb-4">Bienvenue sur la page d'accueil</h1>
+        <h1 class="display-4 text-center mb-4">MyPharma</h1>
+        <p class="lead text-center">Ceci est votre page d’accueil personnalisée.</p>
+
+        <!-- Publicité Google Ads -->
+        <div class="my-4 text-center">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2107906926002287"
+                crossorigin="anonymous"></script>
+        </div>
+    
+        <div class="container mt-5">
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'login' %}" class="btn btn-primary">Se connecter</a>
+            <a href="{% url 'register' %}" class="btn btn-secondary">Créer un compte</a>
+        </div>
+    </div>
+    
+    
+    
+                
+        
+      
+        
+       
+
+        
+       
+
+          
+          
+
+      
+      
+
+        
+</div>
+<!-- partial -->
+  <script  src="static/script.js"></script>
+  <script src="static/bootstrap.min.js"></script>
+  <script>
+    document.getElementById('search-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const input = document.getElementById('search-input');
+        fetch("{% url 'produit_search_results' %}?q=" + encodeURIComponent(input.value), {
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('search-modal-body').innerHTML = data.html;
+            let modal = new bootstrap.Modal(document.getElementById('searchModal'));
+            modal.show();
+        });
+    });
+    </script>
+  
+
+</body>
+</html>

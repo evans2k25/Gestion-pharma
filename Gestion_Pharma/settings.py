@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Produits',
     'widget_tweaks',
+    'Produits',
+    'Utilisateurs',
 ]
 
 MIDDLEWARE = [
@@ -126,6 +127,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
+LOGIN_URL = 'login'
 
 
