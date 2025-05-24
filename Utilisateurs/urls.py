@@ -1,5 +1,5 @@
 from django.urls import path
-from  .views import connecter_compte,creer_utilisateur,Verification_mail,changement_code
+from  .views import connecter_compte,creer_utilisateur,Verification_mail,changement_code,deconnexion
 
 
 urlpatterns = [
@@ -8,6 +8,7 @@ urlpatterns = [
     path('register/', creer_utilisateur, name='register'),
     path('verification/', Verification_mail, name='verification'),
     path('modifierCode/<str:email>/',changement_code, name='modifierCode'),
+    path('logout/', deconnexion, name='logout'),
  
 ]
 

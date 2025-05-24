@@ -1,7 +1,7 @@
 from django.urls import path, reverse_lazy
 from .views import (
     Affichage, AjoutProduitView, UpdateDonneesView, ProduitDetailView,
-    ProduitSearchView, connecter_compte, home, deconnexion, Acceuille, produit_list
+    ProduitSearchView, connecter_compte, home, Acceuille, produit_list
 )
 from django.contrib.auth.views import LogoutView
 from django.views.generic import DeleteView, UpdateView
@@ -12,7 +12,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', Acceuille.as_view(), name='acceuille'),  # page d'accueil (login)
     path('produit/', produit_list.as_view(), name='produit'),  # liste des produits
-    path('logout/', deconnexion, name='logout'),
+    
     path('login/', connecter_compte, name='login'),
     path('home/', Affichage.as_view(), name='home'),  # page home après connexion
     path('ajout/', AjoutProduitView.as_view(), name='ajout'),

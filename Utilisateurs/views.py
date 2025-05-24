@@ -117,3 +117,9 @@ def changement_code(request, email):
         'email': email,
     }
     return render(request, "nouveauMDP.html", context)
+
+
+def deconnexion(request):
+    logout(request)
+    request.session.flush()  # vide TOUTE la session
+    return redirect('login')

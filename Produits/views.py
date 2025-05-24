@@ -17,10 +17,7 @@ from .forms import AjoutProduit as AjoutProduitForm  # Renommage pour éviter co
 def home(request):
     return render(request, "home.html")
 
-def deconnexion(request):
-    logout(request)
-    request.session.flush()  # vide TOUTE la session
-    return redirect('login')
+
 
 class produit_list(LoginRequiredMixin, ListView):
     model = Produit
