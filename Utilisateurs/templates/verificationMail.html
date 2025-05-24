@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <title>Page de connection</title>
+    <title>Page de creation</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!--===============================================================================================-->
@@ -61,13 +61,11 @@
           <div class="login100-pic js-tilt" data-tilt>
             <img src="{% static 'bjp/images/img-01.png' %}" alt="IMG" />
             <div class="container-login100-form-btn">
+              <div class="container-login100-form-btn">
               <p>
-                <a href="{% url 'verification' %}"> Mot de passe oublé ? </a>
+                <a href="{% url 'login' %}"> J'ai déjà mon compte </a>
               </p>
-              <br />
-              <p>
-                <a href="{% url 'register' %}"> J'ai n'ai pas de compte </a>
-              </p>
+            </div>
             </div>
           </div>
           <form class="login100-form validate-form" method="POST">
@@ -78,50 +76,33 @@
               {% endfor %}
             </ul>
             {% endif %} {% csrf_token %}
-            <span class="login100-form-title"> Connection </span>
+            <h3 class="login100-form-title">Verirication de votre adresse E-mail</h3>
+            
 
-            <div
-              class="wrap-input100 validate-input"
-              data-validate="Valid email is required: ex@abc.xyz"
-            >
+            <div class="wrap-input100 validate-input">
               <input
                 class="input100"
-                type="text"
-                name="username"
-                id="username"
-                placeholder="Nom utilisateur"
+                type="email"
+                name="email"
+                placeholder="Votre Adresse mail"
               />
               <span class="focus-input100"></span>
               <span class="symbol-input100">
-                <i class="fa fa-user" aria-hidden="true"></i>
+                <i class="fa fa-envelope" aria-hidden="true"></i>
               </span>
             </div>
 
-            <div
-              class="wrap-input100 validate-input"
-              data-validate="Password is required"
-            >
-              <input
-                class="input100"
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Mot de passe"
-              />
-              <span class="focus-input100"></span>
-              <span class="symbol-input100">
-                <i class="fa fa-lock" aria-hidden="true"></i>
-              </span>
-            </div>
+            
+
+            
 
             <div class="container-login100-form-btn">
-              <button class="login100-form-btn">Se Connecter</button>
+              <button class="login100-form-btn">Verirication</button>
             </div>
           </form>
         </div>
       </div>
     </div>
-
     <!--===============================================================================================-->
     <script src="{% static 'bjp/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
     <!--===============================================================================================-->
@@ -138,10 +119,6 @@
     </script>
     <!--===============================================================================================-->
     <script src="{% static 'bjp/js/main.js' %}"></script>
-    <script>
-      if (window.performance && window.performance.navigation.type === 2) {
-        window.location.href = "{% url 'login' %}";
-      }
-    </script>
   </body>
 </html>
+0
