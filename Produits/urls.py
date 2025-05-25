@@ -1,7 +1,7 @@
 from django.urls import path, reverse_lazy
 from .views import (
     Affichage, AjoutProduitView, UpdateDonneesView, ProduitDetailView,
-    ProduitSearchView, connecter_compte, home, Acceuille, produit_list
+    ProduitSearchView, connecter_compte, home, Acceuille, produit_list,AjoutVente,Saverecu
 )
 from django.contrib.auth.views import LogoutView
 from django.views.generic import DeleteView, UpdateView
@@ -51,6 +51,10 @@ urlpatterns = [
     ),
     path('produit/<int:pk>/', ProduitDetailView.as_view(), name='produit_detail'),
     path("recherche/", ProduitSearchView.as_view(), name="produit_search_results"),
+    path('AjoutVente/<int:pk>/', AjoutVente, name='AjoutVente'),
+    path('enregistrement-recu/<int:pk>/', Saverecu, name='saverecu'),
+    path('facture/<int:pk>/', Saverecu, name='facture'),
+    
 ]
 
 if settings.DEBUG:

@@ -9,8 +9,9 @@ from django.template.loader import render_to_string
 from django.views.decorators.cache import never_cache
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Produit
-from .forms import AjoutProduit as AjoutProduitForm  # Renommage pour éviter conflit
+from .models import Produit,Vente,FactureClient
+from .forms import AjoutVente, AjoutProduit as AjoutProduitForm  # Renommage pour éviter conflit
+
 
 @never_cache
 @login_required(login_url='login')
@@ -89,3 +90,93 @@ def connecter_compte(request):
         else:
             messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
     return render(request, "login.html")
+
+#Fonction pour la vente de produit
+@login_required(login_url='login')
+def venteProduit(request, pk):
+    
+    produit = get_object_or_404(Produit, pk=pk)
+    messages = None
+    if request.method == "POST":
+        form = AjoutVente(request.POST)
+        if form.is_valid():
+            quantite = form.cleaned_data['quantite']
+            customer = form.cleaned_data['customer']
+            
+            if quantite > produit.quantite:
+                messages = "Quantité demandée supérieure à la quantité disponible."
+            else:
+                customer, _ -customer.objects.get_or_create(name=customer)
+                
+                total_amount = produit.price * quantite
+                
+                sale = Vente(
+                    produit=produit,
+                    quantite=quantite,
+                    prix_unitaire=produit.price,
+                    customer=customer,
+                    total_amount=total_amount
+                )
+                sale.save()
+                
+                produit.quantite -= quantite
+                
+                
+                return redirect('facture', pk=sale.pk)
+            
+        else:
+            from = AjoutVente()
+            
+            if produit.quantite <= 5 and not messages:
+                messages = "Attention, la quantité de ce produit est faible."
+            context ={
+                
+                'produit': produit,
+                'form': form,
+                'messages': messages
+            }
+        return render(request, 'formulaire-vente.html', context)
+    
+    
+# Fonction pour afficher la facture de vente
+@login_required(login_url='login')
+def Saverecu(request, pk):
+    vente = get_object_or_404(Vente, pk=pk)
+    customer = vente.customer
+    quantite = vente.quantite
+    total_amount = vente.total_amount
+    
+    recu = FactureClient(
+        vente=vente,
+        customer=customer,
+        quantite=quantite,
+        total_amount=total_amount
+        produit=produit,
+    )
+    
+    recu.save()
+    return redirect('facture', sale_pk=pk)
+
+# Fonction pour afficher la facture
+@login_required(login_url='login')
+def facture(request, sale_pk):
+    sale = get_object_or_404(Vente, pk=sale_pk)
+    customer = sale.customer,
+    produit = sale.produit,
+    quantite = sale.quantite,
+    total_amount = sale.total_amount,
+    sale_date = sale.sale_date,
+    
+    context = {
+        'pk': sale_pk.pk,
+        'sale': sale,
+        'customer': customer,
+        'produit': produit,
+        'quantite': quantite,
+        'total_amount': total_amount,
+        'sale_date': sale_date,
+    }
+    return render(request, 'facture.html', context)
+
+                
+                

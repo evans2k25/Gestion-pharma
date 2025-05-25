@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Produit, Category
+from .models import Produit, Category,Vente
 from django import forms
 
 
@@ -80,4 +80,45 @@ class AjoutProduit(ModelForm):
         self.fields['date_expiration'].error_messages = {
             'required': 'La date d\'expiration est obligatoire',
             'invalid': 'Entrez une date valide',
+        }
+
+
+#formulaire de vente de produit
+class AjoutVente(ModelForm):
+    
+    quantite = forms.IntegerField(
+        help_text='Quantité à vendre',
+        required=True,
+    )
+    
+    customer = forms.CharField(
+        max_length=100,
+        help_text='Nom du client',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Nom du client',
+                'class': 'form-control'
+            }
+        )
+        
+        
+    )
+    class Meta:
+        model = Vente
+        fields = ['quantite', 'customer']
+        
+        widgets = {
+            'quantite': forms.NumberInput(
+                attrs={
+                    'placeholder': 'Quantité à vendre',
+                    'class': 'form-control'
+                }
+            ),
+            'customer': forms.TextInput(
+                attrs={
+                    'placeholder': 'Nom du client',
+                    'class': 'form-control'
+                }
+            ),
         }
